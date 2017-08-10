@@ -26,50 +26,47 @@ import java.util.ArrayList;
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeAdapterViewHolder>{
     private ArrayList<RecipeClass> mRecipeList;
-    //private final RecipListItemClickListener mOnClickListener;
+    private final ListItemClickListener mOnClickListener;
 
-//    public interface RecipListItemClickListener {
-//        void onListItemClick(int clickedItemIndex);
-//    }
+    public interface ListItemClickListener {
+        void onListItemClick(int clickedItemIndex);
+    }
 
-    public class RecipeAdapterViewHolder extends RecyclerView.ViewHolder {
+    public RecipeAdapter(ListItemClickListener onClickListener) {
+        mOnClickListener = onClickListener;
+    }
+
+    public class RecipeAdapterViewHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener{
+
         public final TextView textView;
 
         public RecipeAdapterViewHolder(View view) {
             super(view);
-            textView = (TextView) view.findViewById(R.id.recipe_name);
-
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //TODO on click???
-                }
-            });
+            textView = view.findViewById(R.id.recipe_name);
+            view.setOnClickListener(this);
         }
 
         public TextView getTextView() {
             return textView;
-        }
-    }
+        } //TODO Need?
 
-    public RecipeAdapter(ArrayList<RecipeClass> recipeList) {
-        mRecipeList = recipeList;
+        @Override
+        public void onClick(View view) {
+            int clickPosition = getAdapterPosition();
+            mOnClickListener.onListItemClick(clickPosition);
+        }
+
     }
 
     @Override
     public RecipeAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-//        View view = LayoutInflater.from(parent.getContext())
-//                .inflate(R.layout.list_item, parent, false);
-//
-//        return new RecipeAdapterViewHolder(view);
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.list_item, parent, false);
 
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.list_item, parent, false);
         return new RecipeAdapterViewHolder(view);
     }
-
-
 
     @Override
     public void onBindViewHolder(RecipeAdapterViewHolder recipeAdapterViewHolder, int position) {
@@ -77,15 +74,11 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeAdap
         recipeAdapterViewHolder.getTextView().setText(recipeName);
     }
 
-
-
     @Override
     public int getItemCount() {
         if (mRecipeList == null) {
             return 0;
-        }
-
-        return mRecipeList.size();
+        } return mRecipeList.size();
     }
 
     public void setRecipeInfo(ArrayList<RecipeClass> recipeList) {

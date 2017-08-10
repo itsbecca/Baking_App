@@ -15,6 +15,8 @@
 */
 package com.example.becca.bakingapp;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -33,22 +35,28 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class RecipeListFragment extends Fragment {
+public class RecipeListFragment extends Fragment implements RecipeAdapter.ListItemClickListener {
 
-    private OnRecipeSelectedListener mCallback;
+    //private OnRecipeSelectedListener mCallback;
     ArrayList<RecipeClass> mRecipeQueryData;
     RecipeAdapter mRecipeAdapter;
 
-    //For saving state orientation change TODO
-//    public static final String SAVED_INSTANCE_ID = "savedScroll";
-//    Bundle mSavedInstanceState;
-//    Parcelable mPreviousState;
+    @Override
+    public void onListItemClick(int clickedItemIndex) {
+        Context context = getContext();
+        Class destinationActivity = RecipeDetail.class;
 
-    public interface OnRecipeSelectedListener {
-        void onRecipeSelected(int position);
+        Intent intent = new Intent(context, destinationActivity);
+        intent.putExtra("PACKAGE", mRecipeQueryData.get(clickedItemIndex));
+
+        startActivity(intent);
     }
 
-//    @Override TODO
+//    public interface OnRecipeSelectedListener { TODO
+//        void onRecipeSelected(int position);
+//    }
+
+//    @Override
 //    public void onAttach(Context context) {
 //        super.onAttach(context);
 //        try {
@@ -68,7 +76,7 @@ public class RecipeListFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         makeRecipeQuery();
-        mRecipeAdapter = new RecipeAdapter(mRecipeQueryData);
+        mRecipeAdapter = new RecipeAdapter(this);
     }
 
     @Override
@@ -83,17 +91,6 @@ public class RecipeListFragment extends Fragment {
 
         return rootView;
     }
-
-//    @Override
-//    public void onListItemClick(int clickedItemIndex) {
-//        Context context = getContext();
-//        Class destinationActivity = RecipeDetail.class;
-//
-//        Intent intent = new Intent(context, destinationActivity);
-//        intent.putExtra(Intent.EXTRA_TEXT, mRecipeQueryData.get(clickedItemIndex));
-//
-//        startActivity(intent);
-//    }
 
     public void makeRecipeQuery() {
         URL recipeSearchUrl = NetworkUtils.getUrl();
@@ -126,29 +123,8 @@ public class RecipeListFragment extends Fragment {
         @Override
         protected void onPostExecute(ArrayList<RecipeClass> recipeQueryData) {
             if (recipeQueryData != null) {
-                //mRecipeAdapter =  new RecipeAdapter(recipeQueryData);
                 mRecipeAdapter.setRecipeInfo(recipeQueryData);
             }
         }
     }
-
-//    @Override TODO
-//    public void onSaveInstanceState(Bundle outState) {
-//        super.onSaveInstanceState(outState);
-//        Parcelable currentState = mRecipeList.getLayoutManager().onSaveInstanceState();
-//        outState.putParcelable(SAVED_INSTANCE_ID, currentState);
-//    }
-//
-//    @Override
-//    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-//        super.onRestoreInstanceState(savedInstanceState);
-//        mSavedInstanceState = savedInstanceState;
-//        restoreInstanceState();
-//    }
-//
-//
-//    public void restoreInstanceState () {
-//        mPreviousState = mSavedInstanceState.getParcelable(SAVED_INSTANCE_ID);
-//        mRecipeList.getLayoutManager().onRestoreInstanceState(mPreviousState);
-//    }
 }

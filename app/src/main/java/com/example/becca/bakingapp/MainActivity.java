@@ -27,7 +27,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    //Testing w/o implements RecipeListFragment.OnRecipeSelectedListener
+    //implements RecipeListFragment.OnRecipeSelectedListener
     TextView mEmptyView;
     ArrayList<RecipeClass> recipeQueryData;
 
