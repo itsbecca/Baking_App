@@ -30,7 +30,6 @@ public class RecipeJsonUtils {
 
     public static ArrayList getMovieDbStringsFromJson(String recipeJsonString)
             throws JSONException {
-        //constants
         final String RECIPE_NAME = "name";
         final String INGREDIENTS = "ingredients";
         final String INGREDIENT_QUANTITY = "quantity";
@@ -42,6 +41,7 @@ public class RecipeJsonUtils {
         final String STEP_VIDEO = "videoURL";
         final String STEP_THUMB = "thumbnailURL";
         final String SERVINGS = "servings";
+        //constants
 
         ArrayList<RecipeClass> recipes = new ArrayList<>();
 

@@ -16,7 +16,6 @@
 package com.example.becca.bakingapp;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -35,61 +34,54 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class RecipeListFragment extends Fragment implements RecipeAdapter.ListItemClickListener {
+public class RecipeListFragment extends Fragment {
 
-    //private OnRecipeSelectedListener mCallback;
+    private OnRecipeSelectedListener mCallback;
     ArrayList<RecipeClass> mRecipeQueryData;
     RecipeAdapter mRecipeAdapter;
-
-    @Override
-    public void onListItemClick(int clickedItemIndex) {
-        Context context = getContext();
-        Class destinationActivity = RecipeDetail.class;
-
-        Intent intent = new Intent(context, destinationActivity);
-        intent.putExtra("PACKAGE", mRecipeQueryData.get(clickedItemIndex));
-
-        startActivity(intent);
-    }
-
-//    public interface OnRecipeSelectedListener { TODO
-//        void onRecipeSelected(int position);
-//    }
-
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        try {
-//            mCallback = (OnRecipeSelectedListener) context;
-//        } catch (ClassCastException e) {
-//            throw new ClassCastException(context.toString()
-//                    + " must implement onRecipeSelected");
-//        }
-//    }
 
     public RecipeListFragment() {
         // Required empty public constructor
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        makeRecipeQuery();
-        mRecipeAdapter = new RecipeAdapter(this);
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mCallback = (OnRecipeSelectedListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement onRecipeSelected");
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        makeRecipeQuery();
+
         // Inflate the layout for this fragment
         final View rootView =  inflater.inflate(R.layout.fragment_recipe_list, container, false);
+        mRecipeAdapter = new RecipeAdapter(getContext(),mRecipeQueryData, mCallback);
 
         RecyclerView recyclerView = rootView.findViewById(R.id.recipe_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(mRecipeAdapter);
 
+        recyclerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int position = view.getId();
+                RecipeClass currentRecipe = mRecipeQueryData.get(position);
+                mCallback.pullCurrentRecipeInfo(currentRecipe);
+            }
+        });
+
         return rootView;
+    }
+
+    public interface OnRecipeSelectedListener {
+        void pullCurrentRecipeInfo(RecipeClass currentRecipe);
     }
 
     public void makeRecipeQuery() {

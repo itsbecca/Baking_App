@@ -18,4 +18,6 @@ package com.example.becca.bakingapp;
 import android.support.v7.app.AppCompatActivity;
 
 public class RecipeDetail extends AppCompatActivity {
+
 }
+

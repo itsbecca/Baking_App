@@ -15,6 +15,7 @@
 */
 package com.example.becca.bakingapp;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,38 +26,15 @@ import java.util.ArrayList;
 
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeAdapterViewHolder>{
+    private Context mContext;
     private ArrayList<RecipeClass> mRecipeList;
-    private final ListItemClickListener mOnClickListener;
+    private final RecipeListFragment.OnRecipeSelectedListener mOnClickListener;
 
-    public interface ListItemClickListener {
-        void onListItemClick(int clickedItemIndex);
-    }
-
-    public RecipeAdapter(ListItemClickListener onClickListener) {
-        mOnClickListener = onClickListener;
-    }
-
-    public class RecipeAdapterViewHolder extends RecyclerView.ViewHolder
-            implements View.OnClickListener{
-
-        public final TextView textView;
-
-        public RecipeAdapterViewHolder(View view) {
-            super(view);
-            textView = view.findViewById(R.id.recipe_name);
-            view.setOnClickListener(this);
-        }
-
-        public TextView getTextView() {
-            return textView;
-        } //TODO Need?
-
-        @Override
-        public void onClick(View view) {
-            int clickPosition = getAdapterPosition();
-            mOnClickListener.onListItemClick(clickPosition);
-        }
-
+    public RecipeAdapter(Context context, ArrayList<RecipeClass> recipeList,
+                         RecipeListFragment.OnRecipeSelectedListener onRecipeSelectedListener) {
+        mContext = context;
+        mRecipeList = recipeList;
+        mOnClickListener = onRecipeSelectedListener;
     }
 
     @Override
@@ -79,6 +57,23 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeAdap
         if (mRecipeList == null) {
             return 0;
         } return mRecipeList.size();
+    }
+
+    public class RecipeAdapterViewHolder extends RecyclerView.ViewHolder {
+        public final TextView textView;
+
+        public RecipeAdapterViewHolder(View view) {
+            super(view);
+            textView = view.findViewById(R.id.recipe_name);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int clickPosition = getAdapterPosition();
+                    mOnClickListener.pullCurrentRecipeInfo(mRecipeList.get(clickPosition));
+                }
+            });
+        }
+        public TextView getTextView() { return textView; }
     }
 
     public void setRecipeInfo(ArrayList<RecipeClass> recipeList) {
