@@ -41,6 +41,29 @@ public class RecipeStepClass implements Parcelable {
         thumbnail = in.readString();
     }
 
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(shortDescription);
+        dest.writeString(description);
+        dest.writeString(videoUri);
+        dest.writeString(thumbnail);
+    }
+
+    @Override
+    public int describeContents() { return 0; }
+
+    public static final Creator<RecipeStepClass> CREATOR = new Creator<RecipeStepClass>() {
+        @Override
+        public RecipeStepClass createFromParcel(Parcel in) {
+            return new RecipeStepClass(in);
+        }
+
+        @Override
+        public RecipeStepClass[] newArray(int size) {
+            return new RecipeStepClass[size];
+        }
+    };
+
     public String getShortDescription() {
         return shortDescription;
     }
@@ -55,29 +78,6 @@ public class RecipeStepClass implements Parcelable {
 
     public Uri getThumbnail() {
         return Uri.parse(thumbnail);
-    }
-
-    public static final Creator<RecipeStepClass> CREATOR = new Creator<RecipeStepClass>() {
-        @Override
-        public RecipeStepClass createFromParcel(Parcel in) {
-            return new RecipeStepClass(in);
-        }
-
-        @Override
-        public RecipeStepClass[] newArray(int size) {
-            return new RecipeStepClass[size];
-        }
-    };
-
-    @Override
-    public int describeContents() { return 0; }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(shortDescription);
-        dest.writeString(description);
-        dest.writeString(videoUri);
-        dest.writeString(thumbnail);
     }
 }
 

@@ -60,7 +60,8 @@ public class RecipeStepFragment extends Fragment {
 
         ListView listView = rootView.findViewById(R.id.steps_list);
         listView.setAdapter
-                (new ArrayAdapter<>(getActivity(), R.layout.list_item, recipeSteps));
+                (new ArrayAdapter<>(getActivity(), R.layout.list_item, R.id.recipe_name_list,
+                        recipeSteps));
 
         return rootView;
     }

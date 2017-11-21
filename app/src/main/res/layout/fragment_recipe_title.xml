@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <TextView
+    <ListView
         android:id="@+id/recipe_ingredients"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

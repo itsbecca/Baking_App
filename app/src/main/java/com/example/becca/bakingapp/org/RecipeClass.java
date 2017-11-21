@@ -52,12 +52,25 @@ public class RecipeClass implements Parcelable{
     protected RecipeClass(Parcel in) {
         name = in.readString();
         servings = in.readString();
-//        ingredientList = in.readStringArray();
-        stepsList = in.createTypedArrayList(RecipeStepClass.CREATOR);
 
-//        in.readStringList(getIngredientList());
-//        in.readList(stepsList, RecipeStepClass.class.getClassLoader());
-//        in.readTypedList(getStepsList(),RecipeStepClass.CREATOR);
+        ingredientList = new ArrayList<>();
+        in.readList(ingredientList, String.class.getClassLoader());
+
+        stepsList = new ArrayList<>();
+        in.readList(stepsList, RecipeStepClass.class.getClassLoader());
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeString(servings);
+        dest.writeList(ingredientList);
+        dest.writeList(stepsList);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<RecipeClass> CREATOR = new Creator<RecipeClass>() {
@@ -71,17 +84,4 @@ public class RecipeClass implements Parcelable{
             return new RecipeClass[size];
         }
     };
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(name);
-        dest.writeString(servings);
-        dest.writeList(ingredientList);
-        dest.writeList(stepsList);
-    }
 }

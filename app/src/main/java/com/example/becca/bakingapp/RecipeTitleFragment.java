@@ -21,6 +21,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.becca.bakingapp.org.RecipeClass;
@@ -32,7 +34,7 @@ public class RecipeTitleFragment extends Fragment {
     private static final String TAG = RecipeDetail.class.getSimpleName();
     TextView mNameView;
     TextView mServingsView;
-    TextView mIngredientsView;
+    ListView mIngredientsView;
 
     public RecipeTitleFragment() {
         // Required empty public constructor
@@ -53,18 +55,21 @@ public class RecipeTitleFragment extends Fragment {
         mServingsView = rootView.findViewById(R.id.recipe_servings);
         mIngredientsView = rootView.findViewById(R.id.recipe_ingredients);
 
+        //retrieve Recipe information from Bundle
         Bundle bundle = this.getArguments();
         RecipeClass currentRecipe = bundle.getParcelable("RecipeKey"); //TODO static
         String recipeName = currentRecipe.getName();
         String recipeServings = currentRecipe.getServings();
-        ArrayList<String> ingredients = currentRecipe.getIngredientList();
-
-        for (int i = 0; i < ingredients.size(); i++) {
-
-        }
 
         mNameView.setText(recipeName);
         mServingsView.setText("Serves " + recipeServings);
+
+        //Display ingredients with adapter
+        ArrayList<String> ingredients = currentRecipe.getIngredientList();
+        ListView listView = rootView.findViewById(R.id.recipe_ingredients);
+        listView.setAdapter
+                (new ArrayAdapter<>(getActivity(), R.layout.list_item, R.id.recipe_name_list,
+                        ingredients));
 
         return rootView;
     }
