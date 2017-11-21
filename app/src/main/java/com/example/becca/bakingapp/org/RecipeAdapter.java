@@ -13,28 +13,31 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package com.example.becca.bakingapp;
+package com.example.becca.bakingapp.org;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.becca.bakingapp.R;
+import com.example.becca.bakingapp.RecipeDetail;
+
 import java.util.ArrayList;
 
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeAdapterViewHolder>{
+
     private Context mContext;
     private ArrayList<RecipeClass> mRecipeList;
-    private final RecipeListFragment.OnRecipeSelectedListener mOnClickListener;
 
-    public RecipeAdapter(Context context, ArrayList<RecipeClass> recipeList,
-                         RecipeListFragment.OnRecipeSelectedListener onRecipeSelectedListener) {
+    public RecipeAdapter(Context context, ArrayList<RecipeClass> recipeList) {
         mContext = context;
         mRecipeList = recipeList;
-        mOnClickListener = onRecipeSelectedListener;
     }
 
     @Override
@@ -64,12 +67,20 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeAdap
 
         public RecipeAdapterViewHolder(View view) {
             super(view);
-            textView = view.findViewById(R.id.recipe_name);
+            textView = view.findViewById(R.id.recipe_name_list);
+
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     int clickPosition = getAdapterPosition();
-                    mOnClickListener.pullCurrentRecipeInfo(mRecipeList.get(clickPosition));
+                    RecipeClass currentRecipe = mRecipeList.get(clickPosition);
+
+                    Intent intent = new Intent(mContext, RecipeDetail.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("RecipeKey", currentRecipe); //todo replace with static
+                    intent.putExtras(bundle);
+
+                    mContext.startActivity(intent);
                 }
             });
         }

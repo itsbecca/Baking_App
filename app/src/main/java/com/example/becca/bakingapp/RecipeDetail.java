@@ -15,9 +15,36 @@
 */
 package com.example.becca.bakingapp;
 
+import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 public class RecipeDetail extends AppCompatActivity {
+    private static final String TAG = RecipeDetail.class.getSimpleName();
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_recipe_detail);
+
+        //access clicked recipe information from the intent
+        Bundle bundle = getIntent().getExtras();
+        if(bundle != null) {
+            if(bundle.containsKey("RecipeKey")) { //todo replace key with static
+                RecipeTitleFragment titleFragment = new RecipeTitleFragment();
+                RecipeStepFragment stepFragment = new RecipeStepFragment();
+                titleFragment.setArguments(bundle);
+                stepFragment.setArguments(bundle);
+
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .add(R.id.title_container, titleFragment)
+                        .add(R.id.step_list_container, stepFragment)
+                        .commit();
+            }
+        } else Log.i(TAG, "Bundle is null");
+
+    }
 }
 

@@ -16,18 +16,15 @@
 package com.example.becca.bakingapp;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity  implements RecipeListFragment.OnRecipeSelectedListener{
-    //implements RecipeListFragment.OnRecipeSelectedListener
+public class MainActivity extends AppCompatActivity{
     TextView mEmptyView;
 
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -54,16 +51,5 @@ public class MainActivity extends AppCompatActivity  implements RecipeListFragme
                 .add(R.id.recipe_list_container, fragment)
                 .commit();
 
-    }
-
-    @Override
-    public void pullCurrentRecipeInfo(RecipeClass currentRecipe) {
-        Log.i(TAG, "pullCurrentRecipeInfo: " + currentRecipe.getName());
-        Intent intent = new Intent(this, RecipeDetail.class);
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("CurrentRecipe",currentRecipe);
-        intent.putExtras(bundle);
-
-        startActivity(intent);
     }
 }

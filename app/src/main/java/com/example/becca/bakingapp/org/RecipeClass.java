@@ -13,7 +13,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package com.example.becca.bakingapp;
+package com.example.becca.bakingapp.org;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -42,9 +42,7 @@ public class RecipeClass implements Parcelable{
         return servings;
     }
 
-    public ArrayList<String> getIngredientList() {
-        return ingredientList;
-    }
+    public ArrayList<String> getIngredientList() { return ingredientList; }
 
     public ArrayList<RecipeStepClass> getStepsList() {
         return stepsList;
@@ -54,8 +52,12 @@ public class RecipeClass implements Parcelable{
     protected RecipeClass(Parcel in) {
         name = in.readString();
         servings = in.readString();
-        ingredientList = in.readArrayList(null);
-        stepsList = in.readArrayList(null);
+//        ingredientList = in.readStringArray();
+        stepsList = in.createTypedArrayList(RecipeStepClass.CREATOR);
+
+//        in.readStringList(getIngredientList());
+//        in.readList(stepsList, RecipeStepClass.class.getClassLoader());
+//        in.readTypedList(getStepsList(),RecipeStepClass.CREATOR);
     }
 
     public static final Creator<RecipeClass> CREATOR = new Creator<RecipeClass>() {

@@ -3,13 +3,18 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
-        android:id="@+id/title_container"
+    <TextView
+        android:id="@+id/recipe_name_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <FrameLayout
-        android:id="@+id/step_list_container"
+    <TextView
+        android:id="@+id/recipe_servings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/recipe_ingredients"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

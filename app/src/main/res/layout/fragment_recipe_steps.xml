@@ -3,13 +3,8 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
-        android:id="@+id/title_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <FrameLayout
-        android:id="@+id/step_list_container"
+    <ListView
+        android:id="@+id/steps_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

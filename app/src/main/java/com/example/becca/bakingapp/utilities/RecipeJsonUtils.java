@@ -15,10 +15,8 @@
 */
 package com.example.becca.bakingapp.utilities;
 
-import android.net.Uri;
-
-import com.example.becca.bakingapp.RecipeClass;
-import com.example.becca.bakingapp.RecipeStepClass;
+import com.example.becca.bakingapp.org.RecipeClass;
+import com.example.becca.bakingapp.org.RecipeStepClass;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,7 +26,7 @@ import java.util.ArrayList;
 
 public class RecipeJsonUtils {
 
-    public static ArrayList getMovieDbStringsFromJson(String recipeJsonString)
+    public static ArrayList getDataFromJson(String recipeJsonString)
             throws JSONException {
         final String RECIPE_NAME = "name";
         final String INGREDIENTS = "ingredients";
@@ -70,8 +68,9 @@ public class RecipeJsonUtils {
                 JSONObject recipeStep = recipeSteps.getJSONObject(k);
                 String shortDescription = recipeStep.getString(STEP_SHORT_DESCRIPTION);
                 String description = recipeStep.getString(STEP_DESCRIPTION);
-                Uri videoUri = Uri.parse(STEP_VIDEO);
-                Uri thumbnail = Uri.parse(STEP_THUMB);
+                String videoUri = recipeStep.getString(STEP_VIDEO);
+                String thumbnail = recipeStep.getString(STEP_THUMB);
+                stepList.add(new RecipeStepClass(shortDescription,description,videoUri,thumbnail));
             }
 
             recipes.add(new RecipeClass(name, servings, ingredientList, stepList));

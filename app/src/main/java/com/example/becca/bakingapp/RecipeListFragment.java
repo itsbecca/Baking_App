@@ -25,6 +25,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.becca.bakingapp.org.RecipeAdapter;
+import com.example.becca.bakingapp.org.RecipeClass;
 import com.example.becca.bakingapp.utilities.NetworkUtils;
 import com.example.becca.bakingapp.utilities.RecipeJsonUtils;
 
@@ -36,7 +38,6 @@ import java.util.ArrayList;
 
 public class RecipeListFragment extends Fragment {
 
-    private OnRecipeSelectedListener mCallback;
     ArrayList<RecipeClass> mRecipeQueryData;
     RecipeAdapter mRecipeAdapter;
 
@@ -47,12 +48,6 @@ public class RecipeListFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        try {
-            mCallback = (OnRecipeSelectedListener) context;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString()
-                    + " must implement onRecipeSelected");
-        }
     }
 
     @Override
@@ -62,26 +57,13 @@ public class RecipeListFragment extends Fragment {
 
         // Inflate the layout for this fragment
         final View rootView =  inflater.inflate(R.layout.fragment_recipe_list, container, false);
-        mRecipeAdapter = new RecipeAdapter(getContext(),mRecipeQueryData, mCallback);
+        mRecipeAdapter = new RecipeAdapter(getContext(),mRecipeQueryData);
 
         RecyclerView recyclerView = rootView.findViewById(R.id.recipe_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(mRecipeAdapter);
 
-        recyclerView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int position = view.getId();
-                RecipeClass currentRecipe = mRecipeQueryData.get(position);
-                mCallback.pullCurrentRecipeInfo(currentRecipe);
-            }
-        });
-
         return rootView;
-    }
-
-    public interface OnRecipeSelectedListener {
-        void pullCurrentRecipeInfo(RecipeClass currentRecipe);
     }
 
     public void makeRecipeQuery() {
@@ -101,7 +83,7 @@ public class RecipeListFragment extends Fragment {
 
             try {
                 String jsonRecipeResponse = NetworkUtils.getResponseFromHttpUrl(searchUrl);
-                mRecipeQueryData = RecipeJsonUtils.getMovieDbStringsFromJson(jsonRecipeResponse);
+                mRecipeQueryData = RecipeJsonUtils.getDataFromJson(jsonRecipeResponse);
                 return mRecipeQueryData;
             } catch (IOException e) {
                 e.printStackTrace();
