@@ -40,7 +40,7 @@ public class StepDetail extends AppCompatActivity {
 
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction()
-                        //.add(R.id.media_container, mediaFragment) todo
+                        .add(R.id.media_container, mediaFragment)
                         .add(R.id.single_step_container, stepFragment)
                         .commit();
             }

@@ -21,17 +21,17 @@
         </activity>
         <activity
             android:name=".RecipeDetail"
-            android:label="@string/title_activity_detail"
+            android:label="@string/title_activity_recipe"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity"/>
         </activity>
-        <!--todo make new label-->
+
         <activity
             android:name=".StepDetail"
-            android:label="@string/title_activity_detail"
+            android:label="@string/title_activity_step"
             android:parentActivityName=".RecipeDetail"
             android:theme="@style/AppTheme">
             <meta-data

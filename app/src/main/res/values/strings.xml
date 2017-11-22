@@ -3,5 +3,7 @@
     <string name="no_internet_connection">Cannot return results: No Internet Connection</string>
     <string name="no_results">There are no recipes to display</string>
 
-    <string name="title_activity_detail">Details</string>
+    <!--Todo what do I want these Activity titles to be???-->
+    <string name="title_activity_recipe">Recipe</string>
+    <string name="title_activity_step">Step</string>
 </resources>

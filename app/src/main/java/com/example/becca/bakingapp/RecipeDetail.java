@@ -20,6 +20,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+//todo issue with not showing this activity on Up from Step Detail
+
 public class RecipeDetail extends AppCompatActivity {
     private static final String TAG = RecipeDetail.class.getSimpleName();
 
