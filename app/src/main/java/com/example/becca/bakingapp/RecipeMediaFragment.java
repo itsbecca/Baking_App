@@ -15,46 +15,28 @@
 */
 package com.example.becca.bakingapp;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import com.example.becca.bakingapp.org.RecipeStepClass;
+public class RecipeMediaFragment extends Fragment {
 
-public class RecipeStepFragment extends Fragment {
-    TextView mStepView;
-
-    private static final String TAG = RecipeDetail.class.getSimpleName();
-
-    public RecipeStepFragment() {
-        // Required empty public constructor
-    }
+    public RecipeMediaFragment() {}
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
+    public void onAttach(Context context) { super.onAttach(context);}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        final View rootView =  inflater.inflate(R.layout.fragment_recipe_step, container, false);
-        mStepView = rootView.findViewById(R.id.step_view);
-
-        //retrieve recipe information from Bundle
-        Bundle bundle = this.getArguments();
-        RecipeStepClass currentStep = bundle.getParcelable("StepKey"); //TODO static
-        String stepString = currentStep.getDescription();
-
-        mStepView.setText(stepString);
-
-
+        final View rootView =  inflater.inflate(R.layout.fragment_media, container, false);
 
         return rootView;
+
+
     }
 }

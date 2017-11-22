@@ -20,30 +20,31 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-public class RecipeDetail extends AppCompatActivity {
-    private static final String TAG = RecipeDetail.class.getSimpleName();
+public class StepDetail extends AppCompatActivity {
+    private static final String TAG = StepDetail.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recipe_detail);
+        setContentView(R.layout.activity_step_detail);
 
         //access clicked recipe information from the intent
         Bundle bundle = getIntent().getExtras();
         if(bundle != null) {
-            if(bundle.containsKey("RecipeKey")) { //todo replace key with static
-                RecipeTitleFragment titleFragment = new RecipeTitleFragment();
-                RecipeStepListFragment stepFragment = new RecipeStepListFragment();
-                titleFragment.setArguments(bundle);
+            if(bundle.containsKey("StepKey")) { //todo replace key with static
+                RecipeMediaFragment mediaFragment = new RecipeMediaFragment();
+                RecipeStepFragment stepFragment = new RecipeStepFragment();
+
+                mediaFragment.setArguments(bundle);
                 stepFragment.setArguments(bundle);
 
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction()
-                        .add(R.id.title_container, titleFragment)
-                        .add(R.id.step_list_container, stepFragment)
+                        //.add(R.id.media_container, mediaFragment) todo
+                        .add(R.id.single_step_container, stepFragment)
                         .commit();
             }
-        } else Log.i(TAG, "Bundle is null");
+        } else Log.i(TAG, "Extras are null");
 
     }
 }
